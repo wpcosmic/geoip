@@ -1,0 +1,24 @@
+service: GeoIP
+
+provider:
+    name: aws
+    region: ap-southeast-1
+
+plugins:
+    - ./vendor/bref/bref
+
+functions:
+    api:
+        handler: index.php
+        description: ''
+        runtime: php-81-fpm
+        timeout: 1 # in seconds (API Gateway has a timeout of 29 seconds)
+        memorySize: 128
+        events:
+            -   httpApi: '*'
+
+# Exclude files from deployment
+package:
+    patterns:
+        - '!node_modules/**'
+        - '!tests/**'
